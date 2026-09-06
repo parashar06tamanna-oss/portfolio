@@ -29,13 +29,18 @@ jobs:
           GH_CONTRIB_TOKEN: ${{ secrets.GH_CONTRIB_TOKEN }}
           GITHUB_ACTOR: ${{ github.actor }}
 
+      - name: Fetch LeetCode stats from GraphQL API
+        run: node scripts/fetch-leetcode.mjs
+        env:
+          LEETCODE_USERNAME: ${{ vars.LEETCODE_USERNAME || 'tamanna_1664525' }}
+
       - name: Commit updated contribution data
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add contributions.json
+          git add contributions.json leetcode.json
           if git diff --cached --quiet; then
-            echo "No changes to contributions.json"
+            echo "No changes to contribution data"
           else
             git commit -m "Update contribution data"
             git push

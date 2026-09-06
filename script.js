@@ -233,35 +233,9 @@ async function loadLeetCode() {
     const calEl = document.getElementById('lc-calendar');
 
     try {
-        const res = await fetch('https://leetcode.com/graphql', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify([
-                {
-                    query: `query userProblemsSolved($username: String!) {
-                        matchedUser(username: $username) {
-                            submitStatsGlobal { acSubmissionNum { difficulty count } }
-                        }
-                    }`,
-                    variables: { username: LEETCODE_USERNAME },
-                },
-                {
-                    query: `query userProfileCalendar($username: String!) {
-                        matchedUser(username: $username) {
-                            userCalendar { activeYears submissionCalendar streak totalActiveDays }
-                            profile { ranking }
-                        }
-                    }`,
-                    variables: { username: LEETCODE_USERNAME },
-                },
-            ]),
-        });
+        const data = await fetchJSON('leetcode.json');
 
-        if (!res.ok) throw new Error('Request failed: ' + res.status);
-        const results = await res.json();
-
-        // Solved counts per difficulty
-        const solved = results[0].data.matchedUser.submitStatsGlobal.acSubmissionNum || [];
+        const solved = data.solved || [];
         const get = (d) => solved.find((x) => x.difficulty === d) || { count: 0 };
         const easy = get('Easy').count;
         const medium = get('Medium').count;
@@ -283,13 +257,11 @@ async function loadLeetCode() {
         document.querySelector('.medium-ring').title = medium + ' / ' + MEDIUM_TOTAL + ' medium problems solved';
         document.querySelector('.hard-ring').title = hard + ' / ' + HARD_TOTAL + ' hard problems solved';
 
-        // Calendar + streak + rank
-        const user = results[1].data.matchedUser;
-        const calendar = user.userCalendar;
+        const calendar = data.calendar || {};
         streakEl.textContent = calendar.streak || 0;
         activeEl.textContent = calendar.totalActiveDays || 0;
 
-        const rank = user.profile.ranking;
+        const rank = (data.profile || {}).ranking;
         rankEl.textContent = rank && rank > 0 ? formatNum(rank) : '—';
 
         drawActivityCalendar(calEl, calendar.submissionCalendar);

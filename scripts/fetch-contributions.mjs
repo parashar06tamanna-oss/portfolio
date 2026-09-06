@@ -19,9 +19,9 @@ const now = new Date();
 const oneYearAgo = new Date(now);
 oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
 
-const toDateStr = (d) => d.toISOString().slice(0, 10);
+// GitHub's GraphQL DateTime! scalar requires a full ISO-8601 timestamp.
+const toDateTimeStr = (d) => d.toISOString();
 
-// GitHub's GraphQL contribution calendar wants a YYYY-MM-DD string.
 // Use the first day of the week containing oneYearAgo so the window covers a full year.
 const start = new Date(oneYearAgo);
 start.setDate(start.getDate() - start.getDay()); // align to Sunday
@@ -56,8 +56,8 @@ const res = await fetch('https://api.github.com/graphql', {
     query,
     variables: {
       login: USERNAME,
-      from: toDateStr(start),
-      to: toDateStr(end),
+      from: toDateTimeStr(start),
+      to: toDateTimeStr(end),
     },
   }),
 });

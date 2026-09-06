@@ -1,0 +1,40 @@
+{
+  "permissions": {
+    "allow": [
+      "Shell(node --check script.js)",
+      "Shell(python -m http.server 8123)",
+      "Shell(curl -s -o NUL -w index.html: %{http_code}\\n http://localhost:8123/index.html)",
+      "Shell(curl -s -o NUL -w style.css: %{http_code}\\n http://localhost:8123/style.css)",
+      "Shell(curl -s -o NUL -w script.js: %{http_code}\\n http://localhost:8123/script.js)",
+      "Shell(curl -s -o NUL -w index: %{http_code}\\n http://localhost:8123/index.html)",
+      "Shell(curl -s -o NUL -w css: %{http_code}\\n http://localhost:8123/style.css)",
+      "Shell(curl -s -o NUL -w js: %{http_code}\\n http://localhost:8123/script.js)",
+      "Shell(node -e \"try{require.resolve('puppeteer');console.log('puppeteer yes')}catch(e){console.log('puppeteer no')} try{require.resolve('playwright');console.log('playwright yes')}catch(e){console.log('playwright no')}\")",
+      "Shell(curl -s -i https://api.github.com/users/parashar06tamanna-oss/repos?per_page=100 -H Accept: application/json -o /dev/null -D -)",
+      "Shell(findstr:*)",
+      "Shell(curl -s -i https://github-contributions-api.jogruber.de/v4/parashar06tamanna-oss?y=last -H Accept: application/json -o /dev/null -D -)",
+      "Shell(curl -s -i https://alfa-leetcode-api.onrender.com/tamanna_1664525/solved -H Accept: application/json -o /dev/null -D -)",
+      "Shell(curl -s -i https://api.github.com/users/parashar06tamanna-oss/repos?per_page=100 -H Accept: application/json)",
+      "Shell(curl -s -i https://github-contributions-api.jogruber.de/v4/parashar06tamanna-oss?y=last)",
+      "Shell(curl -s -i https://alfa-leetcode-api.onrender.com/tamanna_1664525/solved)",
+      "Shell(where msedge chrome 2>NUL; ls \"$env:LOCALAPPDATA\\Google\\Chrome\\Application\\chrome.exe\" 2>NUL; ls \"$env:PROGRAMFILES\\Google\\Chrome\\Application\\chrome.exe\" 2>NUL; ls \"$env:PROGRAMFILES(x86)\\Microsoft\\Edge\\Application\\msedge.exe\" 2>NUL; ls \"$env:PROGRAMFILES\\Microsoft\\Edge\\Application\\msedge.exe\" 2>NUL)",
+      "Shell(powershell -NoProfile -Command \"$paths = @('C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe','C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe','C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe','C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe',\\\"$env:LOCALAPPDATA\\Google\\Chrome\\Application\\chrome.exe\\\",\\\"$env:LOCALAPPDATA\\Microsoft\\Edge\\Application\\msedge.exe\\\"); foreach ($p in $paths) { if (Test-Path $p) { Write-Output $p } }\")",
+      "Shell(curl -s -o NUL -w \"server status: %{http_code}\\n\" http://localhost:8123/index.html)",
+      "Shell(C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe:*)",
+      "Shell(\"C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe\" --headless --disable-gpu --screenshot=\"C:\\Users\\paras\\projects\\Portfolio\\shot-desktop.png\" --window-size=1440,3000 --hide-scrollbars --virtual-time-budget=9000 http://localhost:8123/index.html 2>NUL)",
+      "Shell(\"C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe\" --headless --disable-gpu --screenshot=\"C:\\Users\\paras\\projects\\Portfolio\\shot-mobile.png\" --window-size=390,2400 --hide-scrollbars --virtual-time-budget=9000 http://localhost:8123/index.html 2>NUL)",
+      "Shell(dir shot-desktop.png shot-mobile.png 2>NUL | findstr /i \"png\")",
+      "Shell(\"C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe\" --headless --disable-gpu --dump-dom --virtual-time-budget=9000 http://localhost:8123/index.html 2>NUL > dom-dump.html)",
+      "Shell(more:*)",
+      "Shell(del /f shot-desktop.png shot-mobile.png dom-dump.html 2>NUL; echo \"cleaned\")",
+      "Shell(python -m http.server 8124)",
+      "Shell(\"C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe\" --headless --disable-gpu --dump-dom --virtual-time-budget=9000 http://localhost:8124/index.html 2>NUL > verify.html)",
+      "Shell(node check-map.js)",
+      "Shell(\"C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe\" --headless --disable-gpu --screenshot=\"C:\\Users\\paras\\projects\\Portfolio\\map-check.png\" --window-size=1440,1200 --hide-scrollbars --virtual-time-budget=9000 http://localhost:8124/index.html 2>NUL)",
+      "Shell(\"C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe\" --headless --disable-gpu --screenshot=\"C:\\Users\\paras\\projects\\Portfolio\\map-check2.png\" --window-size=1440,900 --hide-scrollbars --virtual-time-budget=9000 \"javascript:window.scrollTo(0,1300)\" http://localhost:8124/index.html 2>NUL; echo done)",
+      "Shell(del /f verify.html check-map.js map-check.png map-check2.png 2>NUL; echo cleaned)"
+    ],
+    "deny": [],
+    "defaultMode": "default"
+  }
+}

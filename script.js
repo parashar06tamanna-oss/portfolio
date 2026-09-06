@@ -3,7 +3,7 @@ const GITHUB_USERNAME = 'parashar06tamanna-oss';
 const LEETCODE_USERNAME = 'tamanna_1664525';
 
 const GITHUB_API = 'https://api.github.com';
-const CONTRIBUTIONS_API = 'https://github-contributions-api.jogruber.de/v4/' + GITHUB_USERNAME;
+const CONTRIBUTIONS_FILE = 'contributions.json';
 const LEETCODE_API = 'https://alfa-leetcode-api.onrender.com/' + LEETCODE_USERNAME;
 
 // ---------- Helpers ----------
@@ -66,7 +66,7 @@ async function loadContributionMap() {
     const totalEl = document.getElementById('map-total');
 
     try {
-        const data = await fetchJSON(CONTRIBUTIONS_API + '?y=last');
+        const data = await fetchJSON(CONTRIBUTIONS_FILE);
         const total = data.total ? data.total.lastYear : 0;
 
         totalEl.innerHTML = '<strong>' + formatNum(total) + '</strong> contributions in the last year';

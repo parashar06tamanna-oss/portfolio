@@ -32,7 +32,9 @@
       "Shell(node check-map.js)",
       "Shell(\"C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe\" --headless --disable-gpu --screenshot=\"C:\\Users\\paras\\projects\\Portfolio\\map-check.png\" --window-size=1440,1200 --hide-scrollbars --virtual-time-budget=9000 http://localhost:8124/index.html 2>NUL)",
       "Shell(\"C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe\" --headless --disable-gpu --screenshot=\"C:\\Users\\paras\\projects\\Portfolio\\map-check2.png\" --window-size=1440,900 --hide-scrollbars --virtual-time-budget=9000 \"javascript:window.scrollTo(0,1300)\" http://localhost:8124/index.html 2>NUL; echo done)",
-      "Shell(del /f verify.html check-map.js map-check.png map-check2.png 2>NUL; echo cleaned)"
+      "Shell(del /f verify.html check-map.js map-check.png map-check2.png 2>NUL; echo cleaned)",
+      "Shell(mkdir:*)",
+      "powershell"
     ],
     "deny": [],
     "defaultMode": "default"

@@ -1,0 +1,42 @@
+name: Update contributions
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    # Run every 6 hours so the graph stays reasonably fresh.
+    - cron: '0 */6 * * *'
+  workflow_dispatch: # allows manual runs from the Actions tab
+
+permissions:
+  contents: write
+
+jobs:
+  update-contributions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Fetch contributions from GitHub GraphQL API
+        run: node scripts/fetch-contributions.mjs
+        env:
+          GH_CONTRIB_TOKEN: ${{ secrets.GH_CONTRIB_TOKEN }}
+          GITHUB_ACTOR: ${{ github.actor }}
+
+      - name: Commit updated contribution data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add contributions.json
+          if git diff --cached --quiet; then
+            echo "No changes to contributions.json"
+          else
+            git commit -m "Update contribution data"
+            git push
+          fi

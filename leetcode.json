@@ -1,0 +1,31 @@
+{
+  "profile": {
+    "ranking": 5000001
+  },
+  "calendar": {
+    "activeYears": [
+      2026
+    ],
+    "submissionCalendar": "{\"1788652800\": 1}",
+    "streak": 1,
+    "totalActiveDays": 1
+  },
+  "solved": [
+    {
+      "difficulty": "All",
+      "count": 1
+    },
+    {
+      "difficulty": "Easy",
+      "count": 0
+    },
+    {
+      "difficulty": "Medium",
+      "count": 0
+    },
+    {
+      "difficulty": "Hard",
+      "count": 1
+    }
+  ]
+}

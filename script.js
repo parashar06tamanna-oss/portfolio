@@ -4,7 +4,6 @@ const LEETCODE_USERNAME = 'tamanna_1664525';
 
 const GITHUB_API = 'https://api.github.com';
 const CONTRIBUTIONS_FILE = 'contributions.json';
-const LEETCODE_API = 'https://alfa-leetcode-api.onrender.com/' + LEETCODE_USERNAME;
 
 // ---------- Helpers ----------
 
@@ -231,54 +230,75 @@ async function loadLeetCode() {
     const activeEl = document.getElementById('lc-active');
     const rankEl = document.getElementById('lc-rank');
 
+    const calEl = document.getElementById('lc-calendar');
+
     try {
-        // solved stats
-        try {
-            const solved = await fetchJSON(LEETCODE_API + '/solved');
-            const ac = solved.acSubmissionNum || [];
-            const get = (d) => ac.find((x) => x.difficulty === d) || { count: 0 };
+        const res = await fetch('https://leetcode.com/graphql', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify([
+                {
+                    query: `query userProblemsSolved($username: String!) {
+                        matchedUser(username: $username) {
+                            submitStatsGlobal { acSubmissionNum { difficulty count } }
+                        }
+                    }`,
+                    variables: { username: LEETCODE_USERNAME },
+                },
+                {
+                    query: `query userProfileCalendar($username: String!) {
+                        matchedUser(username: $username) {
+                            userCalendar { activeYears submissionCalendar streak totalActiveDays }
+                            profile { ranking }
+                        }
+                    }`,
+                    variables: { username: LEETCODE_USERNAME },
+                },
+            ]),
+        });
 
-            const easy = get('Easy').count;
-            const medium = get('Medium').count;
-            const hard = get('Hard').count;
-            const all = get('All').count;
+        if (!res.ok) throw new Error('Request failed: ' + res.status);
+        const results = await res.json();
 
-            totalNum.textContent = formatNum(all);
+        // Solved counts per difficulty
+        const solved = results[0].data.matchedUser.submitStatsGlobal.acSubmissionNum || [];
+        const get = (d) => solved.find((x) => x.difficulty === d) || { count: 0 };
+        const easy = get('Easy').count;
+        const medium = get('Medium').count;
+        const hard = get('Hard').count;
+        const all = get('All').count;
 
-            // Totals from the LeetCode problem set
-            const EASY_TOTAL = 800;
-            const MEDIUM_TOTAL = 1700;
-            const HARD_TOTAL = 750;
+        totalNum.textContent = formatNum(all);
 
-            setRing(document.getElementById('easy-ring'), easy, EASY_TOTAL);
-            setRing(document.getElementById('medium-ring'), medium, MEDIUM_TOTAL);
-            setRing(document.getElementById('hard-ring'), hard, HARD_TOTAL);
+        // Totals from the LeetCode problem set
+        const EASY_TOTAL = 800;
+        const MEDIUM_TOTAL = 1700;
+        const HARD_TOTAL = 750;
 
-            document.querySelector('.easy-ring').title = easy + ' / ' + EASY_TOTAL + ' easy problems solved';
-            document.querySelector('.medium-ring').title = medium + ' / ' + MEDIUM_TOTAL + ' medium problems solved';
-            document.querySelector('.hard-ring').title = hard + ' / ' + HARD_TOTAL + ' hard problems solved';
-        } catch (e) {
-            totalNum.textContent = '—';
-        }
+        setRing(document.getElementById('easy-ring'), easy, EASY_TOTAL);
+        setRing(document.getElementById('medium-ring'), medium, MEDIUM_TOTAL);
+        setRing(document.getElementById('hard-ring'), hard, HARD_TOTAL);
 
-        // profile + calendar
-        const profile = await fetchJSON(LEETCODE_API);
-        const calendar = await fetchJSON(LEETCODE_API + '/calendar');
+        document.querySelector('.easy-ring').title = easy + ' / ' + EASY_TOTAL + ' easy problems solved';
+        document.querySelector('.medium-ring').title = medium + ' / ' + MEDIUM_TOTAL + ' medium problems solved';
+        document.querySelector('.hard-ring').title = hard + ' / ' + HARD_TOTAL + ' hard problems solved';
 
+        // Calendar + streak + rank
+        const user = results[1].data.matchedUser;
+        const calendar = user.userCalendar;
         streakEl.textContent = calendar.streak || 0;
         activeEl.textContent = calendar.totalActiveDays || 0;
 
-        const rank = profile.ranking;
+        const rank = user.profile.ranking;
         rankEl.textContent = rank && rank > 0 ? formatNum(rank) : '—';
 
-        drawActivityCalendar(document.getElementById('lc-calendar'), calendar.submissionCalendar);
+        drawActivityCalendar(calEl, calendar.submissionCalendar);
     } catch (err) {
         streakEl.textContent = '—';
         activeEl.textContent = '—';
         rankEl.textContent = '—';
-        const cal = document.getElementById('lc-calendar');
-        cal.innerHTML = '';
-        cal.appendChild(el('p', 'loading-text', 'Could not load LeetCode data. Please try again later.'));
+        calEl.innerHTML = '';
+        calEl.appendChild(el('p', 'loading-text', 'Could not load LeetCode data. Please try again later.'));
     }
 }
 

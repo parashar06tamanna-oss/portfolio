@@ -6,18 +6,18 @@
     "activeYears": [
       2026
     ],
-    "submissionCalendar": "{\"1788652800\": 1}",
-    "streak": 1,
-    "totalActiveDays": 1
+    "submissionCalendar": "{\"1788652800\": 1, \"1788739200\": 1}",
+    "streak": 2,
+    "totalActiveDays": 2
   },
   "solved": [
     {
       "difficulty": "All",
-      "count": 1
+      "count": 2
     },
     {
       "difficulty": "Easy",
-      "count": 0
+      "count": 1
     },
     {
       "difficulty": "Medium",

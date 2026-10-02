@@ -6,14 +6,14 @@
     "activeYears": [
       2026
     ],
-    "submissionCalendar": "{\"1788652800\": 1, \"1788739200\": 1, \"1788825600\": 1, \"1789257600\": 2, \"1789776000\": 1}",
+    "submissionCalendar": "{\"1788652800\": 1, \"1788739200\": 1, \"1788825600\": 1, \"1789257600\": 2, \"1789776000\": 1, \"1790899200\": 1}",
     "streak": 3,
-    "totalActiveDays": 5
+    "totalActiveDays": 6
   },
   "solved": [
     {
       "difficulty": "All",
-      "count": 4
+      "count": 5
     },
     {
       "difficulty": "Easy",
@@ -21,7 +21,7 @@
     },
     {
       "difficulty": "Medium",
-      "count": 1
+      "count": 2
     },
     {
       "difficulty": "Hard",
